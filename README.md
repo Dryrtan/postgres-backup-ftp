@@ -33,6 +33,7 @@ The following environment variables can be set to configure the behavior of the 
 - `POSTGRES_PASSWORD`: The PostgreSQL password (required).
 - `POSTGRES_DB`: The PostgreSQL database name (required, comma-separated for multiple databases).
 - `POSTGRES_HOST`: The PostgreSQL host (required).
+- `POSTGRES_PORT`: The PostgreSQL port (optional, defaults to 5432).
 - `FTP_USER`: The FTP user (required).
 - `FTP_PASS`: The FTP password (required).
 - `FTP_HOST`: The FTP server host (required).
