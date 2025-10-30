@@ -130,7 +130,7 @@ if [ $? -ne 0 ]; then
   echo "Warning: Failed to drop the database. It might not have existed, continuing..."
 fi
 
-psql -U $POSTGRES_USER -h $POSTGRES_HOST -p $POSTGRES_PORT -d postgres -c "CREATE DATABASE \"$SELECTED_DB_NAME\" WITH OWNER $POSTGRES_USER;"
+psql -U $POSTGRES_USER -h $POSTGRES_HOST -d postgres -c "CREATE DATABASE \"$SELECTED_DB_NAME\" WITH OWNER $POSTGRES_USER;"
 if [ $? -ne 0 ]; then
   echo "Failed to create the database."
   exit 1
@@ -140,7 +140,7 @@ echo "Database dropped and recreated successfully."
 
 # Restore the backup
 echo "Restoring the backup..."
-psql -U $POSTGRES_USER -h $POSTGRES_HOST -p $POSTGRES_PORT -d "$SELECTED_DB_NAME" -f "$BACKUP_FILE"
+psql -U $POSTGRES_USER -h $POSTGRES_HOST -d "$SELECTED_DB_NAME" -f "$BACKUP_FILE"
 
 # Check if the restore was successful
 if [ $? -eq 0 ]; then

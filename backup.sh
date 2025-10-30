@@ -19,7 +19,7 @@ for DB_NAME in $(echo $POSTGRES_DB | tr ',' ' '); do
 
   # Perform the backup
   echo "Creating backup file for $DB_NAME..."
-  pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST -p 54321 -F p -b -v -f "$BACKUP_FILE" "$DB_NAME"
+  pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST -F p -b -v -f "$BACKUP_FILE" "$DB_NAME"
 
   # Check if the backup was successful
   if [ $? -eq 0 ]; then
