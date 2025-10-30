@@ -4,6 +4,8 @@ echo "Starting restore process..."
 
 # Variables
 BACKUP_DIR="/downloaded-backups"
+# Default to 5432 if not set
+POSTGRES_PORT="${POSTGRES_PORT:-5432}"
 
 # Function to URL-encode input
 urlencode() {
@@ -125,12 +127,12 @@ export PGPASSWORD=$POSTGRES_PASSWORD
 # Drop and recreate the database
 echo "Dropping and recreating the database '$SELECTED_DB_NAME'..."
 
-psql -U $POSTGRES_USER -h $POSTGRES_HOST -d postgres -c "DROP DATABASE IF EXISTS \"$SELECTED_DB_NAME\";"
+psql -U $POSTGRES_USER -h $POSTGRES_HOST -p $POSTGRES_PORT -d postgres -c "DROP DATABASE IF EXISTS \"$SELECTED_DB_NAME\";"
 if [ $? -ne 0 ]; then
   echo "Warning: Failed to drop the database. It might not have existed, continuing..."
 fi
 
-psql -U $POSTGRES_USER -h $POSTGRES_HOST -d postgres -c "CREATE DATABASE \"$SELECTED_DB_NAME\" WITH OWNER $POSTGRES_USER;"
+psql -U $POSTGRES_USER -h $POSTGRES_HOST -p $POSTGRES_PORT -d postgres -c "CREATE DATABASE \"$SELECTED_DB_NAME\" WITH OWNER $POSTGRES_USER;"
 if [ $? -ne 0 ]; then
   echo "Failed to create the database."
   exit 1
@@ -139,9 +141,6 @@ fi
 echo "Database dropped and recreated successfully."
 
 # Restore the backup
-# Default to 5432 if not set
-POSTGRES_PORT="${POSTGRES_PORT:-5432}"
-
 echo "Restoring the backup..."
 psql -U $POSTGRES_USER -h $POSTGRES_HOST -p $POSTGRES_PORT -d "$SELECTED_DB_NAME" -f "$BACKUP_FILE"
 
