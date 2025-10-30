@@ -2,6 +2,8 @@
 
 This is an easy-to-use side-car container for backing up a PostgreSQL database and uploading the backup to a FTP server. The container is designed to run as a cron job, with configurable schedules and connection details provided via environment variables. Manual backups can also be triggered by running the backup script inside the container. Even restoring from the latest backup is possible.
 
+> This project is a fork of [jannikhst/postgres-backup-ftp](https://github.com/jannikhst/postgres-backup-ftp). The fork adds the ability to specify the PostgreSQL port (via POSTGRES_PORT) and adds support for backing up and restoring multiple databases (provide comma-separated database names in POSTGRES_DB).
+
 - Github Repository: [jannikhst/postgres-backup-ftp](https://github.com/jannikhst/postgres-backup-ftp)
 - Docker Hub Image: [jannikhst/postgres-backup-ftp](https://hub.docker.com/r/jannikhst/postgres-backup-ftp)
 
