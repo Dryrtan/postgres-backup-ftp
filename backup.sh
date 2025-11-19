@@ -48,7 +48,12 @@ for DB_NAME in $(echo $POSTGRES_DB | tr ',' ' '); do
       # Remove the unencrypted backup file
       rm "$BACKUP_FILE"
       # Call the upload script with the encrypted file
-      /scripts/upload.sh "$ENCRYPTED_FILE"
+      if /scripts/upload.sh "$ENCRYPTED_FILE"; then
+        echo "Cleaning up local encrypted backup: $ENCRYPTED_FILE"
+        rm -f "$ENCRYPTED_FILE"
+      else
+        echo "Upload failed for encrypted file: $ENCRYPTED_FILE"
+      fi
     else
       echo "Encryption failed for $BACKUP_FILE"
       rm "$BACKUP_FILE" # Clean up unencrypted file
@@ -56,7 +61,12 @@ for DB_NAME in $(echo $POSTGRES_DB | tr ',' ' '); do
     fi
   else
     # Call the upload script with the unencrypted file
-    /scripts/upload.sh "$BACKUP_FILE"
+    if /scripts/upload.sh "$BACKUP_FILE"; then
+      echo "Cleaning up local backup: $BACKUP_FILE"
+      rm -f "$BACKUP_FILE"
+    else
+      echo "Upload failed for file: $BACKUP_FILE"
+    fi
   fi
   echo "Finished processing database: $DB_NAME"
 done

@@ -13,6 +13,7 @@ This is an easy-to-use side-car container for backing up a PostgreSQL database a
 - Uploads the backup to a specified FTP server.
 - Easy configuration via environment variables.
 - Simple integration with Docker Compose.
+- Cleans up uploaded backup files from `/backups` to avoid consuming container storage.
 
 ## Using Encryption
 
